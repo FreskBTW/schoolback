@@ -18,3 +18,34 @@ exports.createSchool = async (userData) => {
     }
     
 }
+
+exports.addteacher = async (userData) => {
+    try {
+        await usersCollection.doc(userData.id).set(userData)
+        return {
+            success: true
+        }
+        
+    } catch (error) {
+        return {
+            success: false,
+            error: error.message
+        }
+    }
+    
+}
+exports.addstudent = async (userData) => {
+    try {
+        await usersCollection.doc(userData.id).set(userData)
+        return {
+            success: true
+        }
+        
+    } catch (error) {
+        return {
+            success: false,
+            error: error.message
+        }
+    }
+    
+}
