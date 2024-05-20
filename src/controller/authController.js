@@ -1,17 +1,17 @@
-const bcrypt = require ("bcrypt")
-const jsonwebtoken = require ("jsonwebtoken")
-const {createSchool, addstudent, addteacher} = require ('../services/userService')
+const bcrypt = require('bcrypt')
+const jsonwebtoken = require ('jsonwebtoken')
+const {createSchool, addstudent, addteacher, findadminbyemail} = require ('../services/userService')
 
-exports.signupadmin = async (res,req) => {
+exports.signupadmin = async (req,res) => {
     try {
-        const {nameadmin, schoolname, schoolemail, adminpass, staffnum, adress} = req.body
+        const { nameadmin, schoolname, schoolemail, adminpass, staffnum, admadress } = req.body
         const existingadmin = await findadminbyemail(schoolemail)
-        if(existingadmin) {
+        if(existingadmin.success) {
             return res.status(400).json ({
                 message: "Esta escuela ya esta registrada"
             })
         }
-        const saltRounds = 15
+        const saltRounds = 10
         const hashedPassword = await bcrypt.hash(adminpass, saltRounds)
         const newadmin = {
             nameadmin: nameadmin,
@@ -19,7 +19,7 @@ exports.signupadmin = async (res,req) => {
             schoolemail: schoolemail,
             adminpass: hashedPassword,
             staffnum: staffnum,
-            adress: adress
+            admadress: admadress
         }
         const adminResult = await createSchool(newadmin)
         if (adminResult.success) {
@@ -29,7 +29,7 @@ exports.signupadmin = async (res,req) => {
         }
         else {
             res.status(500).json ({
-                message: 'Error al registrar la escuela'
+                message: 'Error al registrar la escuelaaaaa'
             })
         }
     } catch (error) {
@@ -39,7 +39,7 @@ exports.signupadmin = async (res,req) => {
     }
 }
 
-exports.signupstudent = async (res,req) => {
+exports.signupstudent = async (req,res) => {
     try {
         const {studentname, studentclass, studentgender, studentemail, studentnum, studentpass, studentid} = req.body
         const existingstudent = await findstudentbyemail(studentemail)
@@ -76,7 +76,7 @@ exports.signupstudent = async (res,req) => {
       })   
     }
 }
-exports.signupteacher = async (res,req) => {
+exports.signupteacher = async (req,res) => {
     try {
         const {teachername, teacherclass, teachergender, teacheremail, teacherpass, teachersub, teacherphone} = req.body
         const existingteacher = await findteacherbyid(teacheremail)

@@ -1,10 +1,11 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const {createSchool, addstudent, addteacher} = require ('../models/userModel.js')
+require('dotenv').config()
 
-exports.createSchool = async (userData) => {
+exports.createSchool = async (adminData) => {
     try {
-        const createdSchool = await createSchool(userData)
+        const createdSchool = await createSchool(adminData)
         if (createdSchool.success) {
             return {
             success: true
@@ -12,7 +13,7 @@ exports.createSchool = async (userData) => {
         }
         return {
             success: false,
-            message: 'Error al registrar escuela'
+            message: 'Error al registrar escuelaa'
         }
      } catch(error) {
         return{
@@ -58,4 +59,25 @@ exports.createSchool = async (userData) => {
                     error: error.message
                 }
                 }
+            }
+            exports.findadminbyemail = async (schoolemail) => {
+                try {
+                    const found = await findadminbyemail(schoolemail)
+                    if (found.success) {
+                        return {
+                        success: true,
+                        user: found.user
+                        }
+                    }
+                    return {
+                        success: false,
+                        message: 'Admin no encontrado'
+                    }
+                 } catch(error) {
+                    return{
+                        success: false,
+                        error: error.message
+                    }
+                }
+            
             }
