@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const {createSchool, addstudent, addteacher} = require ('../models/userModel.js')
+const {createSchool, addstudent, addteacher, findadminbyemail} = require ('../models/userModel.js')
 require('dotenv').config()
 
 exports.createSchool = async (adminData) => {
@@ -59,6 +59,48 @@ exports.createSchool = async (adminData) => {
                     error: error.message
                 }
                 }
+            }
+            exports.findadminbyemail = async (schoolemail) => {
+                try {
+                    const found = await findadminbyemail(schoolemail)
+                    if (found.success) {
+                        return {
+                        success: true,
+                        user: found.user
+                        }
+                    }
+                    return {
+                        success: false,
+                        message: 'Admin no encontrado'
+                    }
+                 } catch(error) {
+                    return{
+                        success: false,
+                        error: error.message
+                    }
+                }
+            
+            }
+            exports.findstudentbyemail = async (studentemail) => {
+                try {
+                    const found = await findstudentbyemail(studentemail)
+                    if (found.success) {
+                        return {
+                        success: true,
+                        user: found.user
+                        }
+                    }
+                    return {
+                        success: false,
+                        message: 'Estudiante no encontrado'
+                    }
+                 } catch(error) {
+                    return{
+                        success: false,
+                        error: error.message
+                    }
+                }
+            
             }
             exports.findadminbyemail = async (schoolemail) => {
                 try {

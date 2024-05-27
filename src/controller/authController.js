@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt')
 const jsonwebtoken = require ('jsonwebtoken')
-const {createSchool, addstudent, addteacher, findadminbyemail} = require ('../services/userService')
+const {createSchool, addstudent, addteacher, findadminbyemail, findstudentbyemail, findteacherbyemail} = require ('../services/userService')
 
 exports.signupadmin = async (req,res) => {
     try {
@@ -79,7 +79,7 @@ exports.signupstudent = async (req,res) => {
 exports.signupteacher = async (req,res) => {
     try {
         const {teachername, teacherclass, teachergender, teacheremail, teacherpass, teachersub, teacherphone} = req.body
-        const existingteacher = await findteacherbyid(teacheremail)
+        const existingteacher = await findteacherbyemail(teacheremail)
         if(existingteacher) {
             return res.status(400).json ({
                 message: "Este profesor ya esta registrado"

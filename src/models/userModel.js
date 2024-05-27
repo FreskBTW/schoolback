@@ -4,7 +4,6 @@ const teacherCollection = firebase.firestore().collection('teacher')
 const studentCollection = firebase.firestore().collection('student')
 
 
-
 exports.createSchool = async (adminData) => {
     try {
         await adminCollection.doc(adminData.id).set(adminData)
@@ -20,14 +19,14 @@ exports.createSchool = async (adminData) => {
     }   
     
 }
-exports.findadminbyemail = async (email) => {
+exports.findadminbyemail = async (schoolemail) => {
     try {
-        const userEmail = await adminCollection.where('email','==', email).get()
-        if (!userEmail.empty) {
-            const userFound = userEmail.docs[0]
+        const adminEmail = await adminCollection.where('schoolemail','==', schoolemail).get()
+        if (!adminEmail.empty) {
+            const adminFound = adminEmail.docs[0]
             return {
                 success: true,
-                user: userFound.data ()
+                admin: adminFound.data ()
             }
         } else {
             return {
